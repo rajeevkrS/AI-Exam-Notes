@@ -1,6 +1,8 @@
 import { FaArrowRight } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 function CallToAction() {
+  const navigate = useNavigate();
   return (
     <section className="max-w-6xl mx-auto mt-32 px-6">
       <div className="bg-white rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.08)] border border-gray-100 p-10 md:p-14 flex flex-col md:flex-row items-center justify-between gap-8">
@@ -18,7 +20,7 @@ function CallToAction() {
         {/* Right Button */}
         <button
           onClick={() => navigate("/notes")}
-          className="px-8 py-4 rounded-full bg-emerald-600 text-white font-semibold text-lg flex items-center gap-3 hover:bg-emerald-700 transition cursor-pointer"
+          className="px-8 py-3 rounded-xl flex items-center gap-3 bg-linear-to-br from-black/90 via-black/80 to-black/90 border border-white/10 text-white font-semibold text-lg cursor-pointer"
         >
           Begin Your Journey
           <FaArrowRight size={18} />

@@ -59,7 +59,10 @@ function Navbar() {
   `}
     >
       {/* Left Side */}
-      <div className="flex items-center gap-3 select-none">
+      <div
+        onClick={() => navigate("/")}
+        className="flex items-center gap-3 select-none cursor-pointer"
+      >
         <img src={logo} alt="prepmate logo" className="h-11 hidden md:block" />
         <img src={text} alt="prepmate text" className="md:h-9 h-7" />
       </div>
@@ -144,7 +147,7 @@ function Navbar() {
                 className="absolute right-0 mt-4 w-45 rounded-2xl bg-black/90 backdrop-blur-xl border border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.7)] p-4 text-white"
               >
                 <MenuItem
-                  text="History"
+                  text="Your Notes"
                   onClick={() => {
                     setShowProfile(false);
                     navigate("/history");
