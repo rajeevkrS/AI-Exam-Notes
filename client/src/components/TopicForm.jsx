@@ -1,5 +1,8 @@
 import { motion } from "motion/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { generateNotes } from "../services/api";
+import { useDispatch } from "react-redux";
+import { updateCredits } from "../redux/userSlice";
 
 function TopicForm({ setResult, setLoading, loading, setError }) {
   const [topic, setTopic] = useState("");
@@ -8,6 +11,84 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
   const [revisionMode, setRevisonMode] = useState(false);
   const [includeDiagram, setIncludeDiagram] = useState(false);
   const [includeChart, setIncludeChart] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [progressText, setProgressText] = useState("");
+  const dispatch = useDispatch();
+
+  // Submit func for generating notes
+  const handleSubmit = async () => {
+    if (!topic.trim()) {
+      setError("Please enter the topic");
+      return;
+    }
+
+    setError("");
+    setLoading(true);
+    setResult(null);
+
+    try {
+      // Calls generateNotes(...) with all the form options
+      const result = await generateNotes({
+        topic,
+        classLevel,
+        examType,
+        revisionMode,
+        includeDiagram,
+        includeChart,
+      });
+
+      // On success: Saves the result & Resets all form fields back to defaults
+      setResult(result.data);
+      setLoading(false);
+      setClassLevel("");
+      setTopic("");
+      setExamType("");
+      setIncludeChart(false);
+      setIncludeDiagram(false);
+      setRevisonMode(false);
+
+      // updating credits in real time
+      if (typeof result.creditsLeft === "number") {
+        dispatch(updateCredits(result.creditsLeft));
+      }
+    } catch (error) {
+      console.log(error);
+      setError("Failed to fetch notes from server!");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Progess bar
+  useEffect(() => {
+    if (!loading) {
+      setProgress(0);
+      setProgressText("");
+      return;
+    }
+
+    let value = 0;
+
+    const interval = setInterval(() => {
+      value += Math.random() * 8; // Random increment each tick (every 700ms)
+
+      // Update label based on how far along we are
+      if (value >= 95) {
+        setProgressText("Almost done...");
+        clearInterval(interval);
+      } else if (value > 70) {
+        setProgressText("Finalizing notes...");
+      } else if (value > 40) {
+        setProgressText("Processing content...");
+      } else {
+        setProgressText("Generating notes...");
+      }
+
+      setProgress(Math.floor(value));
+    }, 700);
+
+    return () => clearInterval(interval);
+  }, [loading]);
 
   return (
     <motion.div
@@ -82,6 +163,7 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
 
       {/* Generate Button */}
       <motion.button
+        onClick={handleSubmit}
         whileTap={!loading ? { scale: 0.97 } : {}}
         transition={{ type: "spring", stiffness: 250, damping: 18 }}
         disabled={loading}
@@ -104,6 +186,30 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
           {loading ? "Generating..." : "Generate Notes"}
         </span>
       </motion.button>
+
+      {/* Progress Bar */}
+      {loading && (
+        <div className="mt-4 space-y-2">
+          <div className="w-full h-2 rounded-full bg-white/10 overflow-hidden">
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: `${progress}%` }}
+              transition={{ ease: "easeOut", duration: 0.6 }}
+              className="h-full bg-linear-to-r from-green-400 via-emerald-400 to-green-500"
+            ></motion.div>
+          </div>
+
+          <div className="flex justify-between text-xs text-gray300">
+            <span className="font-semibold">{progressText}</span>
+            <span className="font-semibold">{progress}%</span>
+          </div>
+
+          <p className="text-xs text-gray-400 text-center">
+            This may take up tp 2-5 minutes. Please don't close or refesh the
+            page.
+          </p>
+        </div>
+      )}
     </motion.div>
   );
 }

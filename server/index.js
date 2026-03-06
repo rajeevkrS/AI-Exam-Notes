@@ -5,6 +5,7 @@ import connectDB from "./utils/db.js";
 import cookieParser from "cookie-parser";
 import authRouter from "./routes/authRoute.js";
 import userRouter from "./routes/userRoute.js";
+import notesRouter from "./routes/generateRoute.js";
 dotenv.config({ quiet: true });
 
 const PORT = process.env.PORT || 5000;
@@ -30,6 +31,7 @@ app.get("/", (req, res) => {
 // API endpoints
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
+app.use("/api/notes", notesRouter);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

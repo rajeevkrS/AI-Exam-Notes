@@ -76,17 +76,12 @@ function Navbar() {
               setShowCredits(!showCredits);
               setShowProfile(false);
             }}
-            whileHover={{ scale: 1.07 }}
             whileTap={{ scale: 0.97 }}
             className="flex items-center gap-1 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white text-sm shadow-md cursor-pointer"
           >
             <span className="md:text-xl text-lg">🔷</span>
             <span className="md:text-xl text-lg font-semibold">{credits}</span>
-            <motion.span
-              whileHover={{ scale: 1.2 }}
-              whileTap={{ scale: 0.97 }}
-              className="ml-1 h-5 w-5 flex items-center justify-center rounded-full bg-white text-xs font-bold"
-            >
+            <motion.span className="ml-1 h-5 w-5 flex items-center justify-center rounded-full bg-white text-xs font-bold">
               ➕
             </motion.span>
           </motion.div>
@@ -126,7 +121,6 @@ function Navbar() {
               setShowProfile(!showProfile);
               setShowCredits(false);
             }}
-            whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.97 }}
             className="flex items-center gap-1 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white text-sm shadow-md cursor-pointer"
           >

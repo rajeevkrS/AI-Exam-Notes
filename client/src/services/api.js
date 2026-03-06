@@ -13,3 +13,18 @@ export const getCurrentUser = async (dispatch) => {
     dispatch(setUserData(null));
   }
 };
+
+export const generateNotes = async (payload) => {
+  try {
+    const result = await axios.post(
+      backendUrl + "/api/notes/generate-notes",
+      payload,
+      { withCredentials: true },
+    );
+    console.log(result.data);
+
+    return result.data;
+  } catch (error) {
+    console.log("Error in Frontend generating Notes: ", error);
+  }
+};
