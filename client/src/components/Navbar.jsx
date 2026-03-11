@@ -18,6 +18,7 @@ function Navbar() {
   const [showProfile, setShowProfile] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  // Sign out func
   const handleSignOut = async () => {
     try {
       await axios.get(backendUrl + "/api/auth/logout", {
@@ -30,6 +31,7 @@ function Navbar() {
     } catch (error) {}
   };
 
+  // Scroll Func
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);

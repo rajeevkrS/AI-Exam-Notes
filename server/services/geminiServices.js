@@ -1,7 +1,7 @@
 const Gemini_URL =
   "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent";
 
-export const generateGeminiResponse = async (prompt) => {
+export const generateGeminiResponse = async (prompt, retries = 3) => {
   try {
     // Sending a request to Gemini
     const response = await fetch(
@@ -20,6 +20,13 @@ export const generateGeminiResponse = async (prompt) => {
         }),
       },
     );
+
+    // Retry if Gemini overloaded
+    if (response.status === 503 && retries > 0) {
+      console.log("Gemini overloaded. Retrying...");
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      return generateGeminiResponse(prompt, retries - 1);
+    }
 
     if (!response.ok) {
       const err = await response.text();

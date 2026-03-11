@@ -25,6 +25,7 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
     setError("");
     setLoading(true);
     setResult(null);
+    localStorage.removeItem("notesResult"); // clear previously saved notes
 
     try {
       // Calls generateNotes(...) with all the form options
@@ -53,13 +54,15 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
       }
     } catch (error) {
       console.log(error);
-      setError("Failed to fetch notes from server!");
+      setError(
+        "PrepMate AI is currently experiencing high demand. Please try generating your notes again in a moment.",
+      );
     } finally {
       setLoading(false);
     }
   };
 
-  // Progess bar
+  // Progess bar logic
   useEffect(() => {
     if (!loading) {
       setProgress(0);
@@ -94,7 +97,7 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="max-w-7xl mx-auto rounded-2xl bg-linear-to-br from-black/90 via-black/80 to-black/90 backdrop-blur-2xl border border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.4)] p-8 space-y-6 text-white"
+      className="rounded-2xl bg-linear-to-br from-black/90 via-black/80 to-black/90 backdrop-blur-2xl border border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.3)] p-8 space-y-6 text-white"
     >
       <div className="flex items-center justify-between">
         <div>

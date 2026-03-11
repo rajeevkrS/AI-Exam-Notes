@@ -1,19 +1,37 @@
 import { motion } from "motion/react";
 import Navbar from "../components/Navbar";
 import TopicForm from "../components/TopicForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Sidebar from "../components/Sidebar";
+import FinalResult from "../components/FinalResult";
 
 function Notes() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // Load saved result when page opens
+  useEffect(() => {
+    const savedResult = localStorage.getItem("notesResult");
+
+    if (savedResult) {
+      setResult(JSON.parse(savedResult));
+    }
+  }, []);
+
+  // Save result whenever it changes
+  useEffect(() => {
+    if (result) {
+      localStorage.setItem("notesResult", JSON.stringify(result));
+    }
+  }, [result]);
+
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-100 to-gray-200 px-6 py-8">
       <Navbar />
 
-      {/* Input Form Section */}
-      <motion.div className="mt-12">
+      {/* Topic Form Section */}
+      <motion.div className="mt-12 max-w-7xl mx-auto">
         <TopicForm
           setResult={setResult}
           loading={loading}
@@ -22,16 +40,68 @@ function Notes() {
         />
       </motion.div>
 
-      {/* Generated Notes Section */}
-      {!result && (
+      {/* Info Section */}
+      {!result && !error && (
         <motion.div
-          whileHover={{ scale: 1.02 }}
-          className="h-64 mt-12 rounded-2xl flex flex-col items-center justify-center bg-white/60 backdrop-blur-lg border border-dashed border-r-gray-300 text-gray-500 shadow-inner"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="max-w-7xl mx-auto h-72 mt-12 rounded-3xl flex flex-col items-center justify-center bg-white/70 backdrop-blur-xl border border-gray-300 text-gray-600 shadow-sm"
         >
-          <span className="text-4xl mb-3">
-            📘
-            <p className="text-sm">Generated notes will appear here</p>
-          </span>
+          <div className="w-14 h-14 flex items-center justify-center rounded-xl bg-gray-100 mb-4 shadow-sm">
+            <span className="text-3xl select-none">📘</span>
+          </div>
+
+          <h3 className="text-lg font-semibold text-gray-700 mb-1">
+            No Notes Generated Yet
+          </h3>
+
+          <p className="text-sm text-gray-500 text-center max-w-sm">
+            Enter a topic above and let PrepMate AI generate structured exam
+            notes, diagrams, and important questions instantly.
+          </p>
+
+          <motion.div
+            animate={{ opacity: [0.3, 1, 0.3] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="mt-4 text-xs text-gray-400"
+          >
+            Waiting for your topic...
+          </motion.div>
+        </motion.div>
+      )}
+
+      {/* Error Section */}
+      {error && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="max-w-7xl mx-auto mt-12 flex flex-col items-center justify-center bg-red-50 border border-red-200 text-red-600 rounded-2xl p-8 shadow-sm"
+        >
+          <div className="text-3xl mb-3">⚠️</div>
+
+          <h3 className="text-lg font-semibold mb-1">Something went wrong</h3>
+
+          <p className="text-sm text-red-500 text-center max-w-md">{error}</p>
+        </motion.div>
+      )}
+
+      {/* Generated Notes Section */}
+      {result && (
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="flex flex-col lg:grid lg:grid-cols-4 gap-6 mt-12"
+        >
+          <div className="lg:col-span-1">
+            <Sidebar result={result} />
+          </div>
+
+          <div className="lg:col-span-3 rounded-2xl bg-white shadow-sm p-6">
+            <FinalResult result={result} />
+          </div>
         </motion.div>
       )}
     </div>
