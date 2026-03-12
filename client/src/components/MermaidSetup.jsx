@@ -33,7 +33,7 @@ const autoFixBadNodes = (diagram) => {
   });
 };
 
-function MermaidSetup({ diagram }) {
+function MermaidSetup({ diagram, zoom = 1 }) {
   const containerRef = useRef(null);
 
   // Runs whenever diagram changes
@@ -67,11 +67,15 @@ function MermaidSetup({ diagram }) {
   }, [diagram]);
 
   return (
-    <div className="bg-white border rounded-lg p-2 overflow-x-auto">
+    <div className="bg-white border rounded-lg p-2 overflow-auto">
       <div
-        ref={containerRef}
-        className="w-full [&>svg]:w-full [&>svg]:h-auto"
-      />
+        style={{
+          transform: `scale(${zoom})`,
+          transformOrigin: "top left",
+        }}
+      >
+        <div ref={containerRef} />
+      </div>
     </div>
   );
 }

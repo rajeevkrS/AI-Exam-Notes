@@ -3,6 +3,8 @@ import ReactMarkdown from "react-markdown";
 import { FaFileDownload } from "react-icons/fa";
 import { GrDocumentNotes } from "react-icons/gr";
 import MermaidSetup from "./MermaidSetup";
+import { FiZoomIn, FiZoomOut } from "react-icons/fi";
+import ChartSetup from "./ChartSetup";
 
 const markDownComponent = {
   h1: ({ children }) => (
@@ -31,6 +33,7 @@ const markDownComponent = {
 
 function FinalResult({ result }) {
   const [quickRevision, setQuickRevision] = useState(false);
+  const [zoom, setZoom] = useState(1);
 
   if (
     !result ||
@@ -117,15 +120,53 @@ function FinalResult({ result }) {
       {/* Diagram */}
       {result.diagram?.data && (
         <section>
-          <SectionHeader icon={"📊"} title={"Diagram"} color={"cyan"} />
+          <div className="flex items-center justify-between mb-4 px-4 py-2 rounded-lg bg-linear-to-r from-cyan-100 to-cyan-50 text-cyan-700 font-semibold">
+            {/* Left side */}
+            <div className="flex items-center gap-2">
+              <span className="text-xl">📊</span>
+              <span>Diagram</span>
+            </div>
 
-          <MermaidSetup diagram={result.diagram?.data} />
+            {/* Right side: Zoom Controls */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setZoom((z) => Math.max(z - 0.2, 1))}
+                className="p-1 rounded-full hover:bg-white/70 transition cursor-pointer"
+              >
+                <FiZoomOut size={20} />
+              </button>
+
+              <button
+                onClick={() => setZoom((z) => Math.min(z + 0.2, 2.5))}
+                className="p-1 rounded-full hover:bg-white/70 transition cursor-pointer"
+              >
+                <FiZoomIn size={20} />
+              </button>
+            </div>
+          </div>
+
+          <MermaidSetup diagram={result.diagram?.data} zoom={zoom} />
 
           <p className="mt-3 text-xs text-gray-500 italic">
-            ℹ️ If you need this diagram for futur reference or revision, you can
+            ⊙ If you need this diagram for future reference or revision, you can
             save it by taking a screenshot.
           </p>
         </section>
+      )}
+
+      {/* Charts */}
+      {result.charts?.length > 0 && (
+        <section>
+          <SectionHeader icon={"📊"} title={"Visual Charts"} color={"indigo"} />
+
+          <ChartSetup charts={result.charts} />
+        </section>
+      )}
+
+      {result.charts && result.charts.length === 0 && (
+        <p className="text-sm text-gray-400 italic">
+          Charts are not relevant for this topic.
+        </p>
       )}
 
       {/* Important Questions  */}
