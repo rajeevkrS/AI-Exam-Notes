@@ -5,6 +5,7 @@ import { GrDocumentNotes } from "react-icons/gr";
 import MermaidSetup from "./MermaidSetup";
 import { FiZoomIn, FiZoomOut } from "react-icons/fi";
 import ChartSetup from "./ChartSetup";
+import { downloadPDF } from "../services/api";
 
 const markDownComponent = {
   h1: ({ children }) => (
@@ -61,7 +62,10 @@ function FinalResult({ result }) {
             {quickRevision ? "Exit Revision Mode" : "Quick Revison"}
           </button>
 
-          <button className="px-4 py-2 rounded-lg text-sm font-medium bg-indigo-600 text-white hover:bg-indigo-700 flex items-center gap-2 cursor-pointer">
+          <button
+            onClick={() => downloadPDF(result)}
+            className="px-4 py-2 rounded-lg text-sm font-medium bg-indigo-600 text-white hover:bg-indigo-700 flex items-center gap-2 cursor-pointer"
+          >
             <FaFileDownload className="text-lg" />
             Download PDF
           </button>
