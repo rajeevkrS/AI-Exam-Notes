@@ -79,11 +79,11 @@ function Navbar() {
               setShowProfile(false);
             }}
             whileTap={{ scale: 0.97 }}
-            className="flex items-center gap-1 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white text-sm shadow-md cursor-pointer"
+            className="flex items-center gap-1 md:px-3 px-2 py-1 rounded-full bg-white/10 border border-white/20 text-white text-sm shadow-md cursor-pointer"
           >
-            <span className="md:text-xl text-lg">🔷</span>
-            <span className="md:text-xl text-lg font-semibold">{credits}</span>
-            <motion.span className="ml-1 h-5 w-5 flex items-center justify-center rounded-full bg-white text-xs font-bold">
+            <span className="md:text-xl text-md">🔷</span>
+            <span className="md:text-xl text-md font-semibold">{credits}</span>
+            <motion.span className="ml-1 md:h-5 h-4 md:w-5 w-4 flex items-center justify-center rounded-full bg-white text-xs font-bold">
               ➕
             </motion.span>
           </motion.div>
@@ -126,7 +126,7 @@ function Navbar() {
             whileTap={{ scale: 0.97 }}
             className="flex items-center gap-1 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white text-sm shadow-md cursor-pointer"
           >
-            <span className="md:text-xl text-lg font-semibold">
+            <span className="md:text-xl text-md font-semibold">
               {userData?.name.slice(0, 1).toUpperCase()}
             </span>
           </motion.div>
