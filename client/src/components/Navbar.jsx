@@ -3,10 +3,9 @@ import logo from "../assets/logoPrepMate.png";
 import text from "../assets/textPrepMate.png";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { backendUrl } from "../App";
 import { setUserData } from "../redux/userSlice";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { logoutUser } from "../services/api";
 
 function Navbar() {
   const { userData } = useSelector((state) => state.user);
@@ -20,15 +19,11 @@ function Navbar() {
 
   // Sign out func
   const handleSignOut = async () => {
-    try {
-      await axios.get(backendUrl + "/api/auth/logout", {
-        withCredentials: true,
-      });
+    await logoutUser();
 
-      dispatch(setUserData(null));
-
-      navigate("/auth");
-    } catch (error) {}
+    dispatch(setUserData(null));
+    localStorage.removeItem("selectedNoteId");
+    navigate("/auth");
   };
 
   // Scroll Func

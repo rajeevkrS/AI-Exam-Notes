@@ -2,6 +2,16 @@ import axios from "axios";
 import { backendUrl } from "../App";
 import { setUserData } from "../redux/userSlice";
 
+export const logoutUser = async () => {
+  try {
+    await axios.get(backendUrl + "/api/auth/logout", {
+      withCredentials: true,
+    });
+  } catch (error) {
+    console.log("Logout error:", error);
+  }
+};
+
 export const getCurrentUser = async (dispatch) => {
   try {
     const result = await axios.get(backendUrl + "/api/user/currentuser", {

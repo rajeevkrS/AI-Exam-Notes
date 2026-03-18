@@ -2,19 +2,38 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { backendUrl } from "../App";
 import { AnimatePresence, motion } from "motion/react";
-import Navbar from "../components/Navbar";
+import { useSelector, useDispatch } from "react-redux";
+import { logoutUser } from "../services/api";
+import { setUserData } from "../redux/userSlice";
 import MenuToggleIcon from "../components/MenuToggleIcon";
 import { FaEdit } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { FiSearch } from "react-icons/fi";
+import FinalResult from "../components/FinalResult";
 
 function History() {
   const navigate = useNavigate();
+
+  const { userData } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const [showProfile, setShowProfile] = useState(false);
+
   const [topics, setTopics] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [search, setSearch] = useState("");
+  const [selectedNote, setSelectedNote] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [selectedNoteId, setSelectedNoteId] = useState(null);
 
-  // Func to get Notes
+  // Handle Sign Out
+  const handleSignOut = async () => {
+    await logoutUser();
+    dispatch(setUserData(null));
+    localStorage.removeItem("selectedNoteId");
+    navigate("/auth");
+  };
+
+  // Get all notes
   useEffect(() => {
     const myNotes = async () => {
       try {
@@ -22,7 +41,7 @@ function History() {
           withCredentials: true,
         });
 
-        console.log(res.data);
+        // console.log(res.data);
 
         setTopics(Array.isArray(res.data) ? res.data : []);
       } catch (error) {
@@ -33,12 +52,50 @@ function History() {
     myNotes();
   }, []);
 
+  // Get single note
+  const openNotes = async (noteId) => {
+    setLoading(true);
+    try {
+      const res = await axios.get(backendUrl + `/api/notes/${noteId}`, {
+        withCredentials: true,
+      });
+
+      setSelectedNote(res.data.content);
+      setSelectedNoteId(noteId);
+
+      localStorage.setItem("selectedNoteId", noteId);
+    } catch (error) {
+      console.log(`Error getting Single Notes: ${error}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handle Note Close on click
+  const handleNoteClick = (id) => {
+    openNotes(id);
+
+    if (window.innerWidth < 1024) {
+      setIsSidebarOpen(false);
+    }
+  };
+
+  // Load selected note on refresh
+  useEffect(() => {
+    const savedId = localStorage.getItem("selectedNoteId");
+
+    if (savedId) {
+      setSelectedNoteId(savedId); // for highlight
+      openNotes(savedId); // fetch content again
+    }
+  }, []);
+
   // Filter notes based on search
   const filteredTopics = topics.filter((item) =>
     item.topic?.toLowerCase().includes(search.toLowerCase()),
   );
 
-  //
+  // Sidebar default open on desktop
   useEffect(() => {
     if (window.innerWidth >= 1024) {
       setIsSidebarOpen(true);
@@ -46,10 +103,10 @@ function History() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-gray-100 to-gray-200 px-6 py-8">
-      <Navbar />
+    <div className="min-h-screen bg-linear-to-br from-gray-100 to-gray-200 p-4">
+      {/* <Navbar /> */}
 
-      {/* Menu Button */}
+      {/* Mobile Menu Button */}
       <button
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         className="fixed lg:hidden bottom-6 right-6 z-100 bg-black/80 backdrop-blur-md border border-white/10 p-3 rounded-full shadow-lg text-white"
@@ -57,8 +114,8 @@ function History() {
         <MenuToggleIcon open={isSidebarOpen} />
       </button>
 
-      {/* Sidebar */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mt-8">
+      <div className="flex gap-6 mt-8">
+        {/* Sidebar */}
         <AnimatePresence>
           {isSidebarOpen && (
             <motion.div
@@ -66,16 +123,64 @@ function History() {
               animate={{ x: 0 }}
               exit={{ x: -320 }}
               transition={{ type: "spring", stiffness: 260, damping: 30 }}
-              className="fixed lg:static top-0 left-0 z-50 lg:z-auto w-72 h-full lg:h-[80vh] lg:rounded-xl lg:col-span-1 bg-black/90 lg:bg-black/80 backdrop-blur-xl border border-white/10 shadow-lg p-5 "
+              className="fixed top-0 left-0 z-50 w-72 h-screen lg:h-screen bg-black/90 lg:bg-black/80 backdrop-blur-xl border border-white/10 shadow-lg p-5"
             >
               <div className="h-full flex flex-col">
-                <div className="space-y-3">
+                {/* 🔥 HEADER */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    {/* Logo */}
+                    <div
+                      onClick={() => navigate("/")}
+                      className="flex items-center gap-2 cursor-pointer"
+                    >
+                      <img src="/logoPrepMate.png" className="h-8 w-8" />
+                    </div>
+
+                    {/* Avatar */}
+                    <div className="relative">
+                      <div
+                        onClick={() => setShowProfile((prev) => !prev)}
+                        className="h-9 w-9 flex items-center justify-center rounded-full bg-white/10 text-white cursor-pointer"
+                      >
+                        {userData?.name?.[0]?.toUpperCase()}
+                      </div>
+
+                      <AnimatePresence>
+                        {showProfile && (
+                          <motion.div
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 10 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            className="absolute right-0 mt-3 w-40 bg-black border border-white/10 rounded-xl p-2"
+                          >
+                            <div
+                              onClick={() => navigate("/pricing")}
+                              className="px-3 py-2 text-sm text-white hover:bg-white/10 rounded cursor-pointer"
+                            >
+                              Pricing
+                            </div>
+
+                            <div className="h-px bg-white/10 my-1"></div>
+
+                            <div
+                              onClick={handleSignOut}
+                              className="px-3 py-2 text-sm text-red-400 hover:bg-red-500/10 rounded cursor-pointer"
+                            >
+                              Sign Out
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  </div>
+
                   {/* Search Bar */}
                   <div className="flex items-center bg-white/10 border border-white/10 rounded-lg px-3 py-2">
                     <FiSearch className="text-gray-400 mr-2" size={18} />
                     <input
                       type="text"
-                      placeholder="Search"
+                      placeholder="Search Topic"
                       value={search}
                       onChange={(e) => setSearch(e.target.value)}
                       className="bg-transparent outline-none text-white placeholder-gray-400 w-full"
@@ -108,8 +213,11 @@ function History() {
                   <ul>
                     {filteredTopics.map((t, i) => (
                       <li
+                        onClick={() => handleNoteClick(t._id)}
                         key={i}
-                        className="cursor-pointer rounded-xl p-3 hover:bg-white/10"
+                        className={`cursor-pointer mb-1 rounded-xl p-3 hover:bg-white/10 ${
+                          selectedNoteId === t._id ? "bg-white/20" : ""
+                        }`}
                       >
                         <p className="text-sm font-semibold text-white">
                           {t.topic}
@@ -136,6 +244,27 @@ function History() {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Notes Section */}
+        <motion.div
+          initial={{ x: -320 }}
+          animate={{ x: 0 }}
+          exit={{ x: -320 }}
+          transition={{ type: "spring", stiffness: 260, damping: 30 }}
+          className="flex-1 rounded-2xl bg-white shadow-lg p-6 min-h-[75vh] lg:ml-72"
+        >
+          {loading && (
+            <p className="text-center text-gray-500">Loading notes...</p>
+          )}
+
+          {!loading && !selectedNote && (
+            <div className="h-full flex items-center justify-center text-gray-400">
+              Select a topic from Sidebar
+            </div>
+          )}
+
+          {!loading && selectedNote && <FinalResult result={selectedNote} />}
+        </motion.div>
       </div>
     </div>
   );

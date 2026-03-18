@@ -24,12 +24,25 @@ const cleanMermaidChart = (diagram) => {
 };
 
 // This function fixes node syntax problems automatically
-const autoFixBadNodes = (diagram) => {
+const autoFixNodes = (diagram) => {
   let index = 0;
+  const used = new Map();
 
-  return diagram.replace(/\[(.*?)\]/g, (_, label) => {
+  return diagram.replace(/\[(.*?)\]/g, (match, label) => {
+    const key = label.trim();
+
+    // reuse same node if label already seen
+    if (used.has(key)) {
+      return used.get(key);
+    }
+
     index++;
-    return `N${index}[${label}]`;
+    const id = `N${index}`;
+    const node = `${id}["${key}"]`;
+
+    used.set(key, node);
+
+    return node;
   });
 };
 
@@ -50,7 +63,7 @@ function MermaidSetup({ diagram, zoom = 1 }) {
         const uniqueId = `mermaid-${Math.random().toString(36).substring(2, 9)}`;
 
         // Runs the diagram through the cleaning function
-        const safeChart = autoFixBadNodes(cleanMermaidChart(diagram));
+        const safeChart = autoFixNodes(cleanMermaidChart(diagram));
 
         // Mermaid Render
         // svg contains the diagram HTML.
