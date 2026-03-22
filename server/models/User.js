@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    lastPaymentSession: {
+      type: String,
+      default: null,
+    },
     notes: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: "Note",

@@ -15,7 +15,7 @@ export const getMyNotes = async (req, res) => {
 
     return res.status(200).json(notes);
   } catch (error) {
-    return res.status(404).json({ message: `getMyNotes error: ${error}` });
+    return res.status(500).json({ message: `getMyNotes error: ${error}` });
   }
 };
 
@@ -37,6 +37,6 @@ export const getSingleNotes = async (req, res) => {
       creadtedAt: notes.createdAt,
     });
   } catch (error) {
-    return res.status(404).json({ message: `getSingleNotes error: ${error}` });
+    return res.status(500).json({ message: `getSingleNotes error: ${error}` });
   }
 };

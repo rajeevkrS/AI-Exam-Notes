@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import Navbar from "../components/Navbar";
 import TopicForm from "../components/TopicForm";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import Sidebar from "../components/Sidebar";
 import FinalResult from "../components/FinalResult";
 
@@ -10,21 +11,31 @@ function Notes() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const { userData } = useSelector((state) => state.user);
+
+  const storageKey = userData?._id ? `notesResult_${userData._id}` : null;
+
   // Load saved result when page opens
   useEffect(() => {
-    const savedResult = localStorage.getItem("notesResult");
+    if (!storageKey) return;
+
+    const savedResult = localStorage.getItem(storageKey);
 
     if (savedResult) {
       setResult(JSON.parse(savedResult));
+    } else {
+      setResult(null); // 🔥 important (new user case)
     }
-  }, []);
+  }, [storageKey]);
 
   // Save result whenever it changes
   useEffect(() => {
+    if (!storageKey) return;
+
     if (result) {
-      localStorage.setItem("notesResult", JSON.stringify(result));
+      localStorage.setItem(storageKey, JSON.stringify(result));
     }
-  }, [result]);
+  }, [result, storageKey]);
 
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-100 to-gray-200 px-6 py-8">

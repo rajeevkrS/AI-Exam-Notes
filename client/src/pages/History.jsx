@@ -29,7 +29,17 @@ function History() {
   const handleSignOut = async () => {
     await logoutUser();
     dispatch(setUserData(null));
+
+    // Remove selected note
     localStorage.removeItem("selectedNoteId");
+
+    // if user sign out in history page then also removing notesResult key from local storage (no old data should be rendered)
+    Object.keys(localStorage).forEach((key) => {
+      if (key.startsWith("notesResult_")) {
+        localStorage.removeItem(key);
+      }
+    });
+
     navigate("/auth");
   };
 
