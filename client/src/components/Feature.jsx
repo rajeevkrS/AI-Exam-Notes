@@ -10,7 +10,7 @@ function Feature({ icon, title, desc, badge }) {
         damping: 20,
       }}
       style={{ transformStyle: "preserve-3d" }}
-      className="group relative rounded-2xl p-8 bg-linear-to-br from-black/90 via-black/80 to-black/90 backdrop-blur-2xl border border-white/10 shadow-[0_30px_80px_rgba(0,0,0,0.7)] text-white overflow-hidden"
+      className="group relative rounded-2xl p-8 bg-white/20 border border-white/20 backdrop-blur-lg text-white overflow-hidden"
     >
       {/* Glow Effect */}
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 bg-linear-to-br from-white/5 via-transparent to-white/5" />

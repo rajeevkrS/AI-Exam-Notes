@@ -10,7 +10,7 @@ function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <div className="z-10 max-w-7xl mx-auto mb-6 mt-20 rounded-2xl bg-linear-to-br from-black/90 via-black/80 to-black/90 backdrop-blur-2xl border border-white/10 px-10 py-8 shadow-[0_25px_60px_rgba(0,0,0,0,0,0.7)]">
+    <div className="z-10 mt-10 bg-white/20 border-t border-white/20 backdrop-blur-lg px-10 py-8 shadow-[0_25px_60px_rgba(0,0,0,0,0,0.7)]">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8 items-start">
         {/* Column 1 */}
         <div className="flex flex-col gap-4 transform-gpu">

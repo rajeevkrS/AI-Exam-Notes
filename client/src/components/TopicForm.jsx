@@ -97,19 +97,11 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-2xl bg-linear-to-br from-black/90 via-black/80 to-black/90 backdrop-blur-2xl border border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.3)] p-8 space-y-6 text-white"
+      className="rounded-2xl bg-stone-50/5 border border-white/20 backdrop-blur-lg shadow-[0_25px_60px_rgba(0,0,0,0.3)] p-8 space-y-6 text-white"
     >
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-xl font-semibold">AI Notes Generator</h2>
-          <p className="text-sm text-gray-400">
-            Generate structured notes powered by AI
-          </p>
-        </div>
-
-        <div className="px-3 py-1 text-xs rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">
-          Gemini
-        </div>
+      <div className="flex flex-col items-center justify-center">
+        <h2 className="text-xl font-semibold">AI Notes Generator</h2>
+        <p className="text-sm">Generate structured notes powered by AI</p>
       </div>
 
       {/* Inputes */}
@@ -118,7 +110,7 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
         value={topic}
         type="text"
         placeholder="Enter topic (e.g. Web Development)"
-        className="w-full p-3 rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 placeholder-gray-400 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+        className="w-full p-3 rounded-xl bg-white/5 backdrop-blur-lg border border-white/20 placeholder-gray-200 text-white font-semibold focus:outline-none focus:ring-2 focus:ring-white/30"
       />
 
       <input
@@ -126,7 +118,7 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
         value={classLevel}
         type="text"
         placeholder="Class / Level (e.g. Class 10)"
-        className="w-full p-3 rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 placeholder-gray-400 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+        className="w-full p-3 rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 placeholder-gray-200 text-white font-semibold focus:outline-none focus:ring-2 focus:ring-white/30"
       />
 
       <input
@@ -134,12 +126,12 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
         value={examType}
         type="text"
         placeholder="Exam Type (e.g. CBSE, JEE, NEET)"
-        className="w-full p-3 rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 placeholder-gray-400 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+        className="w-full p-3 rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 placeholder-gray-200 text-white font-semibold focus:outline-none focus:ring-2 focus:ring-white/30"
       />
 
       {/* Toggle Buttons */}
       <div className="p-5 rounded-xl bg-white/5 border border-white/10 backdrop-blur-xl">
-        <h3 className="text-sm text-gray-400 mb-4">AI Enhancements</h3>
+        <h3 className="text-sm text-gray-100 mb-4">AI Enhancements</h3>
 
         <div className="flex flex-col md:flex-row gap-6">
           <div className="flex flex-col md:flex-row gap-6">
@@ -173,7 +165,7 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
         className={`relative w-full mt-4 py-3 rounded-xl font-semibold flex items-center justify-center gap-3 overflow-hidden transition-all duration-300
         ${
           loading
-            ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+            ? "bg-gray-200 text-gray-600 cursor-not-allowed"
             : "bg-linear-to-r from-cyan-400 via-purple-500 to-indigo-500 text-white shadow-[0_10px_40px_rgba(139,92,246,0.4)] cursor-pointer"
         }`}
       >
@@ -207,7 +199,7 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
             <span className="font-semibold">{progress}%</span>
           </div>
 
-          <p className="text-xs text-gray-400 text-center">
+          <p className="text-xs text-gray-200 text-center">
             This may take up tp 2-5 minutes. Please don't close or refesh the
             page.
           </p>
@@ -229,23 +221,23 @@ function Toggle({ label, checked, onChange }) {
             ? "rgba(34, 197, 94, 0.35)"
             : "rgba(255, 255, 255, 0.15)",
           boxShadow: checked
-            ? "0 0 12px rgba(34,197,94,0.5)"
+            ? "0 0 12px rgba(34,197,94,0.7)"
             : "inset 0 0 6px rgba(0,0,0,0.4)",
         }}
         transition={{ duration: 0.25 }}
-        className="relative w-12 h-6 rounded-full border border-white/20 backdrop-blur-lg flex items-center px-1"
+        className="relative w-12 h-6 rounded-full border border-white/40 backdrop-blur-lg flex items-center px-1"
       >
         <motion.div
           layout
           transition={{ type: "spring", stiffness: 600, damping: 35 }}
           animate={{ x: checked ? 20 : 0 }}
-          className="h-5 w-5 rounded-full bg-white shadow-[0_5px_15px_rgba(0,0,0,0.5)]"
+          className="h-5 w-5 rounded-full bg-white/60 shadow-[0_5px_15px_rgba(0,0,0,0.5)]"
         />
       </motion.div>
 
       <span
         className={`text-sm font-semibold transition-colors duration-200 ${
-          checked ? "text-green-300" : "text-gray-300"
+          checked ? "text-green-300" : "text-gray-200"
         }`}
       >
         {label}

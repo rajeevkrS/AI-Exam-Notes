@@ -82,23 +82,23 @@ export default function Testimonial() {
   });
 
   return (
-    <section className="max-w-7xl mx-auto py-30 relative">
-      <div className="max-w-6xl mx-auto px-6 text-center">
-        <h2 className="text-4xl font-bold mb-4">
+    <section className="py-20 relative">
+      <div className="px-0 md:px-6 text-center">
+        <h2 className="px-6 text-4xl font-bold mb-4">
           Trusted by Students Nationwide
         </h2>
 
-        <p className="text-gray-600 mb-16 max-w-2xl mx-auto">
+        <p className="text-gray-100 px-6 mb-16 max-w-2xl mx-auto">
           Thousands of students are already creating smarter notes using{" "}
           <span className="font-bold">PrepMate AI</span>
         </p>
 
         <div className="relative overflow-hidden">
           {/* Gradient Left */}
-          <div className="pointer-events-none absolute left-0 top-0 h-full w-24 bg-linear-to-r from-white to-transparent z-10" />
+          <div className="pointer-events-none absolute left-0 top-0 h-full w-24 bg-linear-to-r from-black-50/20 to-transparent z-10" />
 
           {/* Gradient Right */}
-          <div className="pointer-events-none absolute right-0 top-0 h-full w-24 bg-linear-to-l from-white to-transparent z-10" />
+          <div className="pointer-events-none absolute right-0 top-0 h-full w-24 bg-linear-to-l from-black-50/20  to-transparent z-10" />
 
           <motion.div
             ref={containerRef}
@@ -114,7 +114,7 @@ export default function Testimonial() {
             {[...testimonials, ...testimonials].map((item, index) => (
               <div
                 key={index}
-                className="min-w-72 max-w-72 bg-white border border-gray-200 rounded-2xl p-6"
+                className="min-w-72 max-w-72 bg-black/20 border border-white/20 backdrop-blur-lg rounded-2xl p-6"
               >
                 <div className="flex items-center gap-4">
                   <img
@@ -124,11 +124,11 @@ export default function Testimonial() {
                   />
                   <div>
                     <h3 className="font-semibold text-lg">{item.name}</h3>
-                    <p className="text-gray-500 text-sm">{item.role}</p>
+                    <p className="text-gray-100 text-sm">{item.role}</p>
                   </div>
                 </div>
 
-                <p className="mt-4 text-gray-600 text-sm leading-relaxed">
+                <p className="mt-4 text-gray-100 text-sm leading-relaxed">
                   {item.text}
                 </p>
               </div>

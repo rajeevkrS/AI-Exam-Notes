@@ -128,12 +128,12 @@ function Pricing() {
           credits="150 Credits"
           description={"Best value for students"}
           features={[
-            "All starter features",
-            "Fast generation",
+            "All features",
+            "Exam Revison Mode",
             "More credits per ₹",
             "Priority AI response",
-            "100GB cloud storage",
             "Priority support",
+            "100GB cloud storage",
           ]}
           popular={true}
           selectedPrice={selectedPrice}
@@ -150,9 +150,9 @@ function Pricing() {
           credits="300 Credits"
           description={"For serious exam preparation"}
           features={[
+            "All Popular features",
             "Maximum credit value",
             "Unlimited revisions",
-            "Charts & Diagrams",
             "Ideal for full syllabus",
             "Advanced security",
             "Unlimited cloud storage",

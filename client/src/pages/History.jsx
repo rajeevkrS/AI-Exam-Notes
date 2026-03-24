@@ -13,11 +13,10 @@ import FinalResult from "../components/FinalResult";
 
 function History() {
   const navigate = useNavigate();
-
   const { userData } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const [showProfile, setShowProfile] = useState(false);
 
+  const [showProfile, setShowProfile] = useState(false);
   const [topics, setTopics] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -114,8 +113,6 @@ function History() {
 
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-100 to-gray-200 p-4">
-      {/* <Navbar /> */}
-
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}

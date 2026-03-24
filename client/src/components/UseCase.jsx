@@ -6,23 +6,23 @@ function UseCase() {
       </div>
 
       <div className="grid md:grid-cols-3 gap-10">
-        <div className="p-8 border rounded-2xl">
+        <div className="p-8 bg-white/20 border border-white/20 backdrop-blur-2xl rounded-2xl">
           <h3 className="text-xl font-semibold">🎓 College Students</h3>
-          <p className="mt-3 text-gray-600">
+          <p className="mt-3 text-gray-100">
             Generate assignments, documentation and exam notes instantly.
           </p>
         </div>
 
-        <div className="p-8 border rounded-2xl">
+        <div className="p-8 bg-white/20 border border-white/20 backdrop-blur-2xl rounded-2xl">
           <h3 className="text-xl font-semibold">📚 Competitive Exams</h3>
-          <p className="mt-3 text-gray-600">
+          <p className="mt-3 text-gray-100">
             Create high-yield revision material for quick recall.
           </p>
         </div>
 
-        <div className="p-8 border rounded-2xl">
+        <div className="p-8 bg-white/20 border border-white/20 backdrop-blur-2xl rounded-2xl">
           <h3 className="text-xl font-semibold">💼 Project Builders</h3>
-          <p className="mt-3 text-gray-600">
+          <p className="mt-3 text-gray-100">
             Auto-generate structured project documentation.
           </p>
         </div>

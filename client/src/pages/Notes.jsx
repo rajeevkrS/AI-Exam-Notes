@@ -38,11 +38,14 @@ function Notes() {
   }, [result, storageKey]);
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-gray-100 to-gray-200 px-6 py-8">
+    <div
+      className="relative min-h-screen bg-cover bg-center bg-no-repeat bg-fixed"
+      style={{ backgroundImage: "url('/back.jpg')" }}
+    >
       <Navbar />
 
       {/* Topic Form Section */}
-      <motion.div className="mt-12 max-w-7xl mx-auto">
+      <motion.div className="mt-12 max-w-7xl mx-auto px-6 py-8">
         <TopicForm
           setResult={setResult}
           loading={loading}
@@ -57,7 +60,7 @@ function Notes() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="max-w-7xl mx-auto h-72 mt-12 rounded-3xl flex flex-col items-center justify-center bg-white/70 backdrop-blur-xl border border-gray-300 text-gray-600 shadow-sm"
+          className="h-72 mt-12 flex flex-col items-center justify-center bg-white/70 backdrop-blur-xl border border-gray-300 text-gray-600 shadow-sm"
         >
           <div className="w-14 h-14 flex items-center justify-center rounded-xl bg-gray-100 mb-4 shadow-sm">
             <span className="text-3xl select-none">📘</span>
@@ -75,7 +78,7 @@ function Notes() {
           <motion.div
             animate={{ opacity: [0.3, 1, 0.3] }}
             transition={{ duration: 2, repeat: Infinity }}
-            className="mt-4 text-xs text-gray-400"
+            className="mt-4 text-xs text-gray-100"
           >
             Waiting for your topic...
           </motion.div>
@@ -88,7 +91,7 @@ function Notes() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
-          className="max-w-7xl mx-auto mt-12 flex flex-col items-center justify-center bg-red-50 border border-red-200 text-red-600 rounded-2xl p-8 shadow-sm"
+          className="max-w-7xl mx-auto mt-12 flex flex-col items-center justify-center bg-red-50 border border-red-200 text-red-600 p-8 shadow-sm"
         >
           <div className="text-3xl mb-3">⚠️</div>
 
@@ -104,7 +107,7 @@ function Notes() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="flex flex-col lg:grid lg:grid-cols-4 gap-6 mt-12"
+          className="flex flex-col lg:grid lg:grid-cols-4 gap-6 mt-12 px-6 py-8"
         >
           <div className="lg:col-span-1">
             <Sidebar result={result} />

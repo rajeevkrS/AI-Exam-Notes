@@ -1,6 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
-import Auth from "./pages/Auth";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentUser } from "./services/api";
@@ -28,27 +27,21 @@ function App() {
   return (
     <>
       <Routes>
-        <Route
-          path="/"
-          element={userData ? <Home /> : <Navigate to={"/auth"} replace />}
-        />
-
-        <Route
-          path="/auth"
-          element={userData ? <Navigate to={"/"} replace /> : <Auth />}
-        />
+        <Route path="/" element={<Home />} />
 
         <Route
           path="/history"
-          element={userData ? <History /> : <Navigate to={"/auth"} replace />}
+          element={userData ? <History /> : <Navigate to="/" replace />}
         />
+
         <Route
           path="/notes"
-          element={userData ? <Notes /> : <Navigate to={"/auth"} replace />}
+          element={userData ? <Notes /> : <Navigate to="/" replace />}
         />
+
         <Route
           path="/pricing"
-          element={userData ? <Pricing /> : <Navigate to={"/auth"} replace />}
+          element={userData ? <Pricing /> : <Navigate to="/" replace />}
         />
 
         <Route path="/payment-success" element={<PaymentSuccess />} />
