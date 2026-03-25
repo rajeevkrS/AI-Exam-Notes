@@ -80,6 +80,27 @@ function History() {
     }
   };
 
+  // Delete Notes Func
+  const deleteNote = async (id) => {
+    try {
+      await axios.delete(backendUrl + `/api/notes/${id}`, {
+        withCredentials: true,
+      });
+
+      // remove from UI instantly
+      setTopics((prev) => prev.filter((t) => t._id !== id));
+
+      // clear if deleted note is open
+      if (selectedNoteId === id) {
+        setSelectedNote(null);
+        setSelectedNoteId(null);
+        localStorage.removeItem("selectedNoteId");
+      }
+    } catch (error) {
+      console.error("Delete error:", error);
+    }
+  };
+
   // Handle Note Close on click
   const handleNoteClick = (id) => {
     openNotes(id);
@@ -220,29 +241,44 @@ function History() {
                   <ul>
                     {filteredTopics.map((t, i) => (
                       <li
-                        onClick={() => handleNoteClick(t._id)}
                         key={i}
-                        className={`cursor-pointer mb-1 rounded-xl p-3 hover:bg-white/10 ${
+                        className={`flex justify-between items-start cursor-pointer mb-1 rounded-lg p-3 hover:bg-white/10 ${
                           selectedNoteId === t._id ? "bg-white/20" : ""
                         }`}
                       >
-                        <p className="text-sm font-semibold text-white">
-                          {t.topic}
-                        </p>
+                        <div
+                          onClick={() => handleNoteClick(t._id)}
+                          className="flex-1"
+                        >
+                          <p className="text-sm font-semibold text-white">
+                            {t.topic}
+                          </p>
 
-                        <div className="mt-2 text-xs">
-                          {t.examType && (
-                            <span className="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300">
-                              Exam Type: {t.examType}
-                            </span>
-                          )}
+                          <div className="mt-2 text-xs">
+                            {t.examType && (
+                              <span className="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300">
+                                Exam Type: {t.examType}
+                              </span>
+                            )}
+                          </div>
+
+                          <div className="flex gap-3 mt-2 text-xs text-gray-300">
+                            {t.revisionMode && <span>⚡Revision</span>}
+                            {t.includeDiagram && <span>📊 Diagram</span>}
+                            {t.includeChart && <span>📈 Chart</span>}
+                          </div>
                         </div>
 
-                        <div className="flex gap-3 mt-2 text-xs text-gray-300">
-                          {t.revisionMode && <span>⚡Revision</span>}
-                          {t.includeDiagram && <span>📊 Diagram</span>}
-                          {t.includeChart && <span>📈 Chart</span>}
-                        </div>
+                        {/* ❌ Delete Button */}
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation(); // prevent opening note
+                            deleteNote(t._id);
+                          }}
+                          className="text-red-400 hover:text-red-500 text-sm ml-2"
+                        >
+                          ✕
+                        </button>
                       </li>
                     ))}
                   </ul>

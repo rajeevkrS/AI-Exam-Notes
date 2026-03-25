@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { generateNotes } from "../services/api";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateCredits } from "../redux/userSlice";
 
 function TopicForm({ setResult, setLoading, loading, setError }) {
@@ -14,6 +14,7 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
   const [progress, setProgress] = useState(0);
   const [progressText, setProgressText] = useState("");
   const dispatch = useDispatch();
+  const { userData } = useSelector((state) => state.user);
 
   // Submit func for generating notes
   const handleSubmit = async () => {
@@ -138,7 +139,14 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
             <Toggle
               label="Exam Revision Mode"
               checked={revisionMode}
-              onChange={() => setRevisonMode(!revisionMode)}
+              onChange={() => {
+                if (!userData?.isPremium) {
+                  alert("Upgrade to Premium to use Exam Revision Mode 🚀");
+                  return;
+                }
+
+                setRevisonMode(!revisionMode);
+              }}
             />
 
             <Toggle

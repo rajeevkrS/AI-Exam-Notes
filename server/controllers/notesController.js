@@ -1,4 +1,5 @@
 import Notes from "../models/Notes.js";
+import UserModel from "../models/User.js";
 
 // API to get users generated notes
 export const getMyNotes = async (req, res) => {
@@ -38,5 +39,30 @@ export const getSingleNotes = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({ message: `getSingleNotes error: ${error}` });
+  }
+};
+
+// API to delete notes
+export const deleteNote = async (req, res) => {
+  try {
+    const noteId = req.params.id;
+
+    const note = await Notes.findOneAndDelete({
+      _id: noteId,
+      user: req.userId, // security: only own notes
+    });
+
+    if (!note) {
+      return res.status(404).json({ message: "Note not found!" });
+    }
+
+    // Remove noteId from user's notes array
+    await UserModel.findByIdAndUpdate(req.userId, {
+      $pull: { notes: noteId },
+    });
+
+    return res.status(200).json({ message: "Note deleted successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: "Delete error: " + error });
   }
 };

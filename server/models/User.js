@@ -29,6 +29,10 @@ const userSchema = new mongoose.Schema(
       ref: "Note",
       default: [],
     },
+    isPremium: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true },
 );

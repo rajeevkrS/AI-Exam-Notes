@@ -21,15 +21,18 @@ function Hero({ userData, handleGoogleAuth, navigate, img }) {
         </h1>
 
         {!userData ? (
-          <p className="mt-8 text-lg text-white/90 leading-relaxed">
-            You get <span className="font-extrabold">100 FREE credits</span> to
-            create exam notes, project notes, charts, graphs and download clean
-            PDFs - instantly using AI.
-            <p className="mt-3 text-sm font-semibold text-white/80">
+          <>
+            <p className="mt-8 text-lg text-white/90 leading-relaxed">
+              You get <span className="font-extrabold">100 FREE credits</span>{" "}
+              to create exam notes, project notes, charts, graphs and download
+              clean PDFs - instantly using AI.
+            </p>
+
+            <div className="mt-3 text-sm font-semibold text-white/80">
               Start with 50 free credits • Upgrade anytime for more credits •
               Instant access
-            </p>
-          </p>
+            </div>
+          </>
         ) : (
           <p className="mt-8 text-lg text-white/90 leading-relaxed">
             Generate exam-focused notes, project documentation, flow diagrams

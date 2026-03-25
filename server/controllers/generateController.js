@@ -25,6 +25,12 @@ export const generateNotes = async (req, res) => {
       return res.status(400).json({ message: "User not found!" });
     }
 
+    if (revisionMode && !user.isPremium) {
+      return res.status(403).json({
+        message: "Exam Revision Mode is available for premium users only",
+      });
+    }
+
     // If the user has fewer than 10 credits, it marks them as credit-unavailable, saves, and returns a 403 Forbidden
     if (user.credits < 10) {
       user.isCreditAvailable = false;

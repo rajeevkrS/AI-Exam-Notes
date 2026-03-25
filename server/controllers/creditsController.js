@@ -129,6 +129,7 @@ export const verifyPayment = async (req, res) => {
       $set: {
         isCreditAvailable: true,
         lastPaymentSession: session_id,
+        isPremium: true,
       },
     });
 
