@@ -1,4 +1,9 @@
 import PDFDocument from "pdfkit";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export const pdfDownload = async (req, res) => {
   const { result } = req.body;
@@ -42,12 +47,16 @@ export const pdfDownload = async (req, res) => {
   doc.rect(0, 30, doc.page.width, 70).fill("#4B4A48");
 
   // draw icon logo
-  doc.image("assets/logoPrepMate.png", startX, 40, {
+  const logoPath = path.join(__dirname, "../assets/logoPrepMate.png");
+
+  doc.image(logoPath, startX, 40, {
     width: iconWidth,
   });
 
   // draw text logo
-  doc.image("assets/textPrepMate.png", startX + iconWidth + gap, 45, {
+  const textLogoPath = path.join(__dirname, "../assets/textPrepMate.png");
+
+  doc.image(textLogoPath, startX + iconWidth + gap, 45, {
     width: textWidth,
   });
 

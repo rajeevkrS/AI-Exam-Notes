@@ -1,52 +1,60 @@
 import { motion, useAnimationFrame, useMotionValue } from "motion/react";
 import { useRef, useState } from "react";
+import A1 from "../assets/A1.png";
+import A2 from "../assets/A2.png";
+import A3 from "../assets/A3.png";
+import A4 from "../assets/A4.png";
+import A5 from "../assets/A5.png";
+import A6 from "../assets/A6.png";
+import A7 from "../assets/A7.png";
+import A8 from "../assets/A8.png";
 
 export default function Testimonial() {
   const testimonials = [
     {
-      image: "/src/assets/A1.png",
+      image: A1,
       name: "Oliver",
       role: "Engineering Student",
       text: "PrepMate AI helped me generate revision-ready notes within seconds. My exam preparation became 10x faster.",
     },
     {
-      image: "/src/assets/A2.png",
+      image: A2,
       name: "Amelia",
       role: "BCA Student",
       text: "The diagrams and structured notes feature is amazing. It saves hours of manual work.",
     },
     {
-      image: "/src/assets/A3.png",
+      image: A3,
       name: "Jack",
       role: "Final Year Student",
       text: "The AI understands context really well. My project documentation looks professional now.",
     },
     {
-      image: "/src/assets/A4.png",
+      image: A4,
       name: "Olivia",
       role: "College Student",
       text: "The revision mode is my favorite feature. Short, crisp and exam-focused notes!",
     },
     {
-      image: "/src/assets/A5.png",
+      image: A5,
       name: "Harry",
       role: "Engineering Student",
       text: "PrepMate AI helped me generate revision-ready notes within seconds. My exam preparation became 10x faster.",
     },
     {
-      image: "/src/assets/A6.png",
+      image: A6,
       name: "Jacob",
       role: "BCA Student",
       text: "The diagrams and structured notes feature is amazing. It saves hours of manual work.",
     },
     {
-      image: "/src/assets/A7.png",
+      image: A7,
       name: "Charlie",
       role: "Final Year Student",
       text: "The AI understands context really well. My project documentation looks professional now.",
     },
     {
-      image: "/src/assets/A8.png",
+      image: A8,
       name: "Thomas",
       role: "College Student",
       text: "The revision mode is my favorite feature. Short, crisp and exam-focused notes!",

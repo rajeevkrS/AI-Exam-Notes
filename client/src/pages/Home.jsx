@@ -4,7 +4,7 @@ import { loginWithGoogle } from "../services/api";
 
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
-import img from "../assets/Screenshot3.png";
+import img from "../assets/Screenshot3.jpg";
 import Feature from "../components/Feature";
 import Footer from "../components/Footer";
 import Testimonial from "../components/Testimonial";
@@ -27,8 +27,8 @@ function Home() {
 
   return (
     <div
-      className="relative min-h-screen text-white bg-cover bg-center bg-no-repeat bg-fixed"
-      style={{ backgroundImage: "url('/back.png')" }}
+      className="relative min-h-screen text-white bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: "url('/back.jpg')" }}
     >
       <Navbar />
 
