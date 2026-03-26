@@ -108,7 +108,7 @@ Designed with a modern and responsive user interface, PrepMate AI combines perfo
    git clone https://github.com/rajeevkrS/AI-Exam-Notes
    ```
 
-2. **Install dependencies in admin, backend and frontend**:
+2. **Install dependencies in backend and frontend**:
 
    ```sh
    cd server

@@ -6,14 +6,16 @@ const isAuth = async (req, res, next) => {
     let { token } = req.cookies;
 
     if (!token) {
-      res.status(400).json({ message: "Token is not found!" });
+      return res.status(400).json({ message: "Token is not found!" });
     }
 
     // verifying the token
     let verifyToken = jwt.verify(token, process.env.JWT_SECRET);
 
     if (!verifyToken) {
-      res.status(400).json({ message: "User does not have valid token!" });
+      return res
+        .status(400)
+        .json({ message: "User does not have valid token!" });
     }
 
     // finding user id from verified token

@@ -28,7 +28,7 @@ function Home() {
   return (
     <div
       className="relative min-h-screen text-white bg-cover bg-center bg-no-repeat bg-fixed"
-      style={{ backgroundImage: "url('/back.jpg')" }}
+      style={{ backgroundImage: "url('/back.png')" }}
     >
       <Navbar />
 

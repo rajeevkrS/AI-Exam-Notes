@@ -75,7 +75,7 @@ function Hero({ userData, handleGoogleAuth, navigate, img }) {
               <div className="pointer-events-none absolute inset-0 bg-linear-to-tr from-white/10 via-transparent to-transparent opacity-40"></div>
 
               {/* Light Sweep Animation */}
-              <motion.div
+              {/* <motion.div
                 initial={{ x: "-200%" }}
                 animate={{ x: "200%" }}
                 transition={{
@@ -85,7 +85,7 @@ function Hero({ userData, handleGoogleAuth, navigate, img }) {
                   repeatDelay: 1.5,
                 }}
                 className="pointer-events-none absolute top-0 left-0 h-full w-[60%] bg-linear-to-r from-transparent via-white/20 to-transparent blur-2xl"
-              />
+              /> */}
 
               <img src={img} alt="preview" className="w-full object-cover" />
             </div>
@@ -97,7 +97,7 @@ function Hero({ userData, handleGoogleAuth, navigate, img }) {
       </motion.div>
 
       {/* Bottom Fade Blur */}
-      <div className="pointer-events-none absolute bottom-0 left-0 w-full h-50 bg-linear-to-b from-transparent via-gray/80 to-[#0b1d3a] blur-xl"></div>
+      {/* <div className="pointer-events-none absolute bottom-0 left-0 w-full h-50 bg-linear-to-b from-transparent via-gray/80 to-[#0b1d3a] blur-xl"></div> */}
     </section>
   );
 }
