@@ -16,13 +16,6 @@ const app = express();
 
 await connectDB();
 
-// stripe webhook route and sending raw data not json because stripe webhook dont accept json formate
-// app.post(
-//   "/api/credits/webhook",
-//   express.raw({ type: "application/json" }),
-//   stripeWebhook,
-// );
-
 // Middleware for parsing JSON bodies
 app.use(
   cors({

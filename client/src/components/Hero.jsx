@@ -29,7 +29,7 @@ function Hero({ userData, handleGoogleAuth, navigate, img }) {
             </p>
 
             <div className="mt-3 text-sm font-semibold text-white/80">
-              Start with 50 free credits • Upgrade anytime for more credits •
+              Start with 100 free credits • Upgrade anytime for more credits •
               Instant access
             </div>
           </>
