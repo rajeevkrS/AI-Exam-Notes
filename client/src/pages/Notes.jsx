@@ -40,7 +40,11 @@ function Notes() {
   return (
     <div
       className="relative min-h-screen bg-cover bg-center bg-no-repeat bg-fixed"
-      style={{ backgroundImage: "url('/back.jpg')" }}
+      style={{
+        backgroundImage: "url('/back.webp')",
+        backgroundPosition: "top center",
+        backgroundColor: "#0a9ecf",
+      }}
     >
       <Navbar />
 
