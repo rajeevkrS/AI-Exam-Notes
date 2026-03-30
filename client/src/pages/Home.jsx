@@ -26,14 +26,16 @@ function Home() {
   };
 
   return (
-    <div
-      className="relative min-h-screen text-white bg-cover bg-center bg-no-repeat bg-fixed"
-      style={{
-        backgroundImage: "url('/back.webp')",
-        backgroundPosition: "top center",
-        backgroundColor: "#0a9ecf",
-      }}
-    >
+    <div className="relative min-h-screen text-white">
+      {/* Fixed Background */}
+      <div
+        className="fixed inset-0 -z-10 bg-cover bg-center"
+        style={{
+          backgroundImage: "url('/back.webp')",
+          backgroundPosition: "top center",
+          backgroundColor: "#0a9ecf",
+        }}
+      />
       <Navbar />
 
       {/* Hero Section */}
