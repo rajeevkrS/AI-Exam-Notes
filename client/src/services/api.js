@@ -1,7 +1,7 @@
 import axios from "axios";
 import { backendUrl } from "../App";
 import { setUserData } from "../redux/userSlice";
-import { signInWithPopup } from "firebase/auth";
+import { signInWithPopup, signOut } from "firebase/auth";
 import { auth, provider } from "../utils/firebase";
 
 // Login
@@ -44,6 +44,8 @@ export const logoutUser = async () => {
     await axios.get(backendUrl + "/api/auth/logout", {
       withCredentials: true,
     });
+
+    await signOut(auth);
   } catch (error) {
     console.log("Logout error:", error);
   }
