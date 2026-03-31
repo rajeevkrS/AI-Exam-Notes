@@ -21,6 +21,11 @@ export const loginWithGoogle = async (dispatch) => {
     );
 
     dispatch(setUserData(result.data));
+
+    if (result.data.token) {
+      localStorage.setItem("token", result.data.token); // iOS fallback
+    }
+
     return result.data;
   } catch (error) {
     // HANDLE Login Popups window closed
@@ -41,29 +46,31 @@ export const loginWithGoogle = async (dispatch) => {
 // Logout
 export const logoutUser = async (dispatch) => {
   try {
+    const localToken = localStorage.getItem("token");
     await axios.post(
       backendUrl + "/api/auth/logout",
       {},
       {
         withCredentials: true,
+        headers: localToken ? { Authorization: `Bearer ${localToken}` } : {},
       },
     );
-
     await signOut(auth);
-
+    localStorage.removeItem("token"); // clear localStorage too
     dispatch(setUserData(null));
   } catch (error) {
-    console.log("Logout error:", error);
+    localStorage.removeItem("token");
     dispatch(setUserData(null));
   }
 };
 
 export const getCurrentUser = async (dispatch) => {
   try {
+    const localToken = localStorage.getItem("token");
     const result = await axios.get(backendUrl + "/api/user/currentuser", {
       withCredentials: true,
+      headers: localToken ? { Authorization: `Bearer ${localToken}` } : {},
     });
-
     dispatch(setUserData(result.data));
   } catch (error) {
     dispatch(setUserData(null));

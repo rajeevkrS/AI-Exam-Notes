@@ -3,7 +3,12 @@ import jwt from "jsonwebtoken";
 const isAuth = async (req, res, next) => {
   try {
     // getting the token from cookies
-    let { token } = req.cookies;
+    let token = req.cookies?.token;
+
+    // iOS Safari fallback — read from Authorization header
+    if (!token && req.headers.authorization?.startsWith("Bearer ")) {
+      token = req.headers.authorization.split(" ")[1];
+    }
 
     if (!token) {
       return res.status(400).json({ message: "Token is not found!" });
