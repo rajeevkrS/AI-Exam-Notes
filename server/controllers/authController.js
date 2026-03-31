@@ -31,6 +31,10 @@ export const googleAuth = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
+    // Prevent caching of logout response
+    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+    res.setHeader("Pragma", "no-cache");
+
     res.clearCookie("token", {
       httpOnly: true,
       secure: true,

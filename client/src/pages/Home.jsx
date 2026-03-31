@@ -26,18 +26,14 @@ function Home() {
   };
 
   return (
-    <div className="relative min-h-dvh text-white overscroll-none">
+    <div className="relative min-h-screen text-white">
       {/* Fixed Background */}
       <div
-        className="fixed inset-0 -z-10"
+        className="fixed inset-0 -z-10 bg-cover bg-center"
         style={{
           backgroundImage: "url('/back.webp')",
           backgroundPosition: "top center",
-          backgroundSize: "cover",
           backgroundColor: "#0a9ecf",
-          // iOS Safari fix
-          height: "100dvh",
-          WebkitTransform: "translateZ(0)", // forces GPU layer on iOS
         }}
       />
 
