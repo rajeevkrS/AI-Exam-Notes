@@ -26,16 +26,21 @@ function Home() {
   };
 
   return (
-    <div className="relative min-h-screen text-white">
+    <div className="relative min-h-dvh text-white overscroll-none">
       {/* Fixed Background */}
       <div
-        className="fixed inset-0 -z-10 bg-cover bg-center"
+        className="fixed inset-0 -z-10"
         style={{
           backgroundImage: "url('/back.webp')",
           backgroundPosition: "top center",
+          backgroundSize: "cover",
           backgroundColor: "#0a9ecf",
+          // iOS Safari fix
+          height: "100dvh",
+          WebkitTransform: "translateZ(0)", // forces GPU layer on iOS
         }}
       />
+
       <Navbar />
 
       {/* Hero Section */}

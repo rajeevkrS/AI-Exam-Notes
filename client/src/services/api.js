@@ -39,7 +39,7 @@ export const loginWithGoogle = async (dispatch) => {
 };
 
 // Logout
-export const logoutUser = async () => {
+export const logoutUser = async (dispatch) => {
   try {
     await axios.get(backendUrl + "/api/auth/logout", {
       withCredentials: true,
