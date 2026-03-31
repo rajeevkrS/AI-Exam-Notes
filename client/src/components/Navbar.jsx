@@ -36,7 +36,7 @@ function Navbar() {
 
   // Sign out func
   const handleSignOut = async () => {
-    await logoutUser();
+    await logoutUser(dispatch);
 
     dispatch(setUserData(null));
     localStorage.removeItem("selectedNoteId");

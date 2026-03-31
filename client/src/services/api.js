@@ -46,8 +46,11 @@ export const logoutUser = async () => {
     });
 
     await signOut(auth);
+
+    dispatch(setUserData(null));
   } catch (error) {
     console.log("Logout error:", error);
+    dispatch(setUserData(null));
   }
 };
 

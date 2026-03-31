@@ -36,6 +36,8 @@ export const logout = async (req, res) => {
       secure: true,
       sameSite: "none",
       path: "/",
+      expires: new Date(0), // ← forces immediate expiry
+      maxAge: 0,
     });
 
     return res.status(200).json({ message: "Logout Successfully!" });
