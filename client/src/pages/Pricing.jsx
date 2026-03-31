@@ -110,7 +110,7 @@ function Pricing() {
           description={"Perfect for quick revisions"}
           features={[
             "5 AI projects per month",
-            "Exam-focused answers",
+            "Exam Revison Mode",
             "Diagram & Charts support",
             "1GB cloud storage",
           ]}
@@ -128,8 +128,7 @@ function Pricing() {
           credits="150 Credits"
           description={"Best value for students"}
           features={[
-            "All features",
-            "Exam Revison Mode",
+            "All starter features",
             "More credits per ₹",
             "Priority AI response",
             "Priority support",
