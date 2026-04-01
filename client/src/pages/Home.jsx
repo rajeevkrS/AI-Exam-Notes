@@ -31,7 +31,7 @@ function Home() {
         className="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: "url('/back.webp')",
-          backgroundColor: "#0a9ecf",
+          backgroundColor: "#003675",
         }}
       />
 
@@ -45,10 +45,12 @@ function Home() {
           navigate={navigate}
           img={img}
         />
+
         {/* Info */}
         <section className="py-20 text-center text-white font-semibold">
           Trusted by 5,000+ students across 50+ subjects
         </section>
+
         {/* Featuers Section */}
         <section className="px-8 py-10">
           <div className="text-center mb-20">
@@ -98,6 +100,7 @@ function Home() {
             />
           </div>
         </section>
+
         {/* How It Works Section */}
         <section className="px-8 py-20">
           <div className="text-center mb-20">
@@ -131,14 +134,19 @@ function Home() {
             </div>
           </div>
         </section>
+
         {/* Stats Section */}
         <Stats />
+
         {/* Use Case Section */}
         <UseCase />
+
         {/* FAQ */}
         <Faq />
+
         {/* Testimonial Section */}
         <Testimonial />
+
         {/* Footer Section */}
         <Footer />
       </div>

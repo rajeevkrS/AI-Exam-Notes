@@ -208,7 +208,7 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
           </div>
 
           <p className="text-xs text-gray-200 text-center">
-            This may take up tp 2-5 minutes. Please don't close or refesh the
+            This may take up to 2-5 minutes. Please don't close or refesh the
             page.
           </p>
         </div>

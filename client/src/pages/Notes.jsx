@@ -38,90 +38,93 @@ function Notes() {
   }, [result, storageKey]);
 
   return (
-    <div
-      className="relative min-h-screen bg-cover bg-center bg-no-repeat bg-fixed"
-      style={{
-        backgroundImage: "url('/back.webp')",
-        backgroundPosition: "top center",
-        backgroundColor: "#0a9ecf",
-      }}
-    >
-      <Navbar />
+    <div className="relative min-h-screen">
+      <div
+        className="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: "url('/back.webp')",
+          backgroundColor: "#003675",
+        }}
+      />
 
-      {/* Topic Form Section */}
-      <motion.div className="mt-12 max-w-7xl mx-auto px-6 py-8">
-        <TopicForm
-          setResult={setResult}
-          loading={loading}
-          setLoading={setLoading}
-          setError={setError}
-        />
-      </motion.div>
+      <div className="relative z-10">
+        <Navbar />
 
-      {/* Info Section */}
-      {!result && !error && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="h-72 mt-12 flex flex-col items-center justify-center bg-white/70 backdrop-blur-xl border border-gray-300 text-gray-600 shadow-sm"
-        >
-          <div className="w-14 h-14 flex items-center justify-center rounded-xl bg-gray-100 mb-4 shadow-sm">
-            <span className="text-3xl select-none">📘</span>
-          </div>
+        {/* Topic Form Section */}
+        <motion.div className="mt-12 max-w-7xl mx-auto px-6 py-8">
+          <TopicForm
+            setResult={setResult}
+            loading={loading}
+            setLoading={setLoading}
+            setError={setError}
+          />
+        </motion.div>
 
-          <h3 className="text-lg font-semibold text-gray-700 mb-1">
-            No Notes Generated Yet
-          </h3>
-
-          <p className="text-sm text-gray-500 text-center max-w-sm">
-            Enter a topic above and let PrepMate AI generate structured exam
-            notes, diagrams, and important questions instantly.
-          </p>
-
+        {/* Info Section */}
+        {!result && !error && (
           <motion.div
-            animate={{ opacity: [0.3, 1, 0.3] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="mt-4 text-xs text-gray-100"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="h-72 mt-12 flex flex-col items-center justify-center bg-white/70 backdrop-blur-xl border border-gray-300 text-gray-600 shadow-sm"
           >
-            Waiting for your topic...
+            <div className="w-14 h-14 flex items-center justify-center rounded-xl bg-gray-100 mb-4 shadow-sm">
+              <span className="text-3xl select-none">📘</span>
+            </div>
+
+            <h3 className="text-lg font-semibold text-gray-700 mb-1">
+              No Notes Generated Yet
+            </h3>
+
+            <p className="text-sm text-gray-500 text-center max-w-sm">
+              Enter a topic above and let PrepMate AI generate structured exam
+              notes, diagrams, and important questions instantly.
+            </p>
+
+            <motion.div
+              animate={{ opacity: [0.3, 1, 0.3] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="mt-4 text-xs text-gray-100"
+            >
+              Waiting for your topic...
+            </motion.div>
           </motion.div>
-        </motion.div>
-      )}
+        )}
 
-      {/* Error Section */}
-      {error && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          className="max-w-7xl mx-auto mt-12 flex flex-col items-center justify-center bg-red-50 border border-red-200 text-red-600 p-8 shadow-sm"
-        >
-          <div className="text-3xl mb-3">⚠️</div>
+        {/* Error Section */}
+        {error && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="max-w-7xl mx-auto mt-12 flex flex-col items-center justify-center bg-red-50 border border-red-200 text-red-600 p-8 shadow-sm"
+          >
+            <div className="text-3xl mb-3">⚠️</div>
 
-          <h3 className="text-lg font-semibold mb-1">Something went wrong</h3>
+            <h3 className="text-lg font-semibold mb-1">Something went wrong</h3>
 
-          <p className="text-sm text-red-500 text-center max-w-md">{error}</p>
-        </motion.div>
-      )}
+            <p className="text-sm text-red-500 text-center max-w-md">{error}</p>
+          </motion.div>
+        )}
 
-      {/* Generated Notes Section */}
-      {result && (
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="flex flex-col lg:grid lg:grid-cols-4 gap-6 mt-12 px-6 py-8"
-        >
-          <div className="lg:col-span-1">
-            <Sidebar result={result} />
-          </div>
+        {/* Generated Notes Section */}
+        {result && (
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="flex flex-col lg:grid lg:grid-cols-4 gap-6 mt-12 px-6 py-8"
+          >
+            <div className="lg:col-span-1">
+              <Sidebar result={result} />
+            </div>
 
-          <div className="lg:col-span-3 rounded-2xl bg-white shadow-sm p-6">
-            <FinalResult result={result} />
-          </div>
-        </motion.div>
-      )}
+            <div className="lg:col-span-3 rounded-2xl bg-white shadow-sm p-6">
+              <FinalResult result={result} />
+            </div>
+          </motion.div>
+        )}
+      </div>
     </div>
   );
 }

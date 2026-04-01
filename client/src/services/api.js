@@ -47,6 +47,7 @@ export const loginWithGoogle = async (dispatch) => {
 export const logoutUser = async (dispatch) => {
   try {
     const localToken = localStorage.getItem("token");
+
     await axios.post(
       backendUrl + "/api/auth/logout",
       {},
@@ -67,10 +68,12 @@ export const logoutUser = async (dispatch) => {
 export const getCurrentUser = async (dispatch) => {
   try {
     const localToken = localStorage.getItem("token");
+
     const result = await axios.get(backendUrl + "/api/user/currentuser", {
       withCredentials: true,
-      headers: localToken ? { Authorization: `Bearer ${localToken}` } : {},
+      headers: localToken ? { Authorization: `Bearer ${localToken}` } : {}, // Token Fallback
     });
+
     dispatch(setUserData(result.data));
   } catch (error) {
     dispatch(setUserData(null));
@@ -79,27 +82,35 @@ export const getCurrentUser = async (dispatch) => {
 
 export const generateNotes = async (payload) => {
   try {
+    const localToken = localStorage.getItem("token");
+
     const result = await axios.post(
       backendUrl + "/api/notes/generate-notes",
       payload,
-      { withCredentials: true },
+      {
+        withCredentials: true,
+        headers: localToken ? { Authorization: `Bearer ${localToken}` } : {}, // Token Fallback
+      },
     );
-    // console.log(result.data);
 
     return result.data;
   } catch (error) {
-    console.log("Error in Frontend generating Notes: ", error);
+    const message = error?.response?.data?.message || error.message;
+    throw new Error(message); // re-throw so TopicForm shows real error
   }
 };
 
 export const downloadPDF = async (result) => {
   try {
+    const localToken = localStorage.getItem("token");
+
     const response = await axios.post(
       backendUrl + "/api/pdf/generate-pdf",
       { result },
       {
         responseType: "blob",
         withCredentials: true,
+        headers: localToken ? { Authorization: `Bearer ${localToken}` } : {}, // Token Fallback
       },
     );
 

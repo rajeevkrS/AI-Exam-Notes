@@ -23,6 +23,8 @@ function History() {
   const [selectedNote, setSelectedNote] = useState(null);
   const [loading, setLoading] = useState(false);
   const [selectedNoteId, setSelectedNoteId] = useState(null);
+  const [topicsLoading, setTopicsLoading] = useState(true);
+  const [deletingId, setDeletingId] = useState(null);
 
   // Handle Sign Out
   const handleSignOut = async () => {
@@ -46,15 +48,17 @@ function History() {
   useEffect(() => {
     const myNotes = async () => {
       try {
+        setTopicsLoading(true);
+
         const res = await axios.get(backendUrl + "/api/notes/getnotes", {
           withCredentials: true,
         });
 
-        // console.log(res.data);
-
         setTopics(Array.isArray(res.data) ? res.data : []);
       } catch (error) {
         console.error(`Error in displaying your notes: ${error}`);
+      } finally {
+        setTopicsLoading(false);
       }
     };
 
@@ -82,6 +86,8 @@ function History() {
 
   // Delete Notes Func
   const deleteNote = async (id) => {
+    setDeletingId(id);
+
     try {
       await axios.delete(backendUrl + `/api/notes/${id}`, {
         withCredentials: true,
@@ -98,6 +104,8 @@ function History() {
       }
     } catch (error) {
       console.error("Delete error:", error);
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -232,56 +240,59 @@ function History() {
 
                 {/* SCROLLABLE NOTES */}
                 <div className="mt-3 flex-1 overflow-y-auto pr-1 custom-scroll">
-                  {filteredTopics.length === 0 && (
+                  {/* ← replace the old empty check with this */}
+                  {topicsLoading ? (
+                    <p className="ml-1.5 text-sm text-gray-400 animate-pulse">
+                      Loading notes...
+                    </p>
+                  ) : filteredTopics.length === 0 ? (
                     <p className="ml-1.5 text-sm text-gray-400">
                       No notes found!
                     </p>
+                  ) : (
+                    <ul>
+                      {filteredTopics.map((t, i) => (
+                        <li
+                          key={i}
+                          className={`flex justify-between items-start cursor-pointer mb-1 rounded-lg p-3 hover:bg-white/10 ${
+                            selectedNoteId === t._id ? "bg-white/20" : ""
+                          }`}
+                        >
+                          <div
+                            onClick={() => handleNoteClick(t._id)}
+                            className="flex-1"
+                          >
+                            <p className="text-sm font-semibold text-white">
+                              {t.topic}
+                            </p>
+                            <div className="mt-2 text-xs">
+                              {t.examType && (
+                                <span className="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300">
+                                  Exam Type: {t.examType}
+                                </span>
+                              )}
+                            </div>
+                            <div className="flex gap-3 mt-2 text-xs text-gray-300">
+                              {t.revisionMode && <span>⚡Revision</span>}
+                              {t.includeDiagram && <span>📊 Diagram</span>}
+                              {t.includeChart && <span>📈 Chart</span>}
+                            </div>
+                          </div>
+
+                          {/* ← delete button with ··· while deleting */}
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              deleteNote(t._id);
+                            }}
+                            className="text-red-400 hover:text-red-500 text-sm ml-2 min-w-4 text-center"
+                          >
+                            {deletingId === t._id ? "···" : "✕"}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
                   )}
-
-                  <ul>
-                    {filteredTopics.map((t, i) => (
-                      <li
-                        key={i}
-                        className={`flex justify-between items-start cursor-pointer mb-1 rounded-lg p-3 hover:bg-white/10 ${
-                          selectedNoteId === t._id ? "bg-white/20" : ""
-                        }`}
-                      >
-                        <div
-                          onClick={() => handleNoteClick(t._id)}
-                          className="flex-1"
-                        >
-                          <p className="text-sm font-semibold text-white">
-                            {t.topic}
-                          </p>
-
-                          <div className="mt-2 text-xs">
-                            {t.examType && (
-                              <span className="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300">
-                                Exam Type: {t.examType}
-                              </span>
-                            )}
-                          </div>
-
-                          <div className="flex gap-3 mt-2 text-xs text-gray-300">
-                            {t.revisionMode && <span>⚡Revision</span>}
-                            {t.includeDiagram && <span>📊 Diagram</span>}
-                            {t.includeChart && <span>📈 Chart</span>}
-                          </div>
-                        </div>
-
-                        {/* ❌ Delete Button */}
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation(); // prevent opening note
-                            deleteNote(t._id);
-                          }}
-                          className="text-red-400 hover:text-red-500 text-sm ml-2"
-                        >
-                          ✕
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
                 </div>
               </div>
             </motion.div>
