@@ -4,6 +4,12 @@ import { setUserData } from "../redux/userSlice";
 import { signInWithPopup, signOut } from "firebase/auth";
 import { auth, provider } from "../utils/firebase";
 
+// ✅ iOS Token Fallback Helper
+export const authHeaders = () => {
+  const token = localStorage.getItem("token");
+  return token ? { Authorization: `Bearer ${token}` } : {};
+};
+
 // Login
 export const loginWithGoogle = async (dispatch) => {
   try {
@@ -23,21 +29,18 @@ export const loginWithGoogle = async (dispatch) => {
     dispatch(setUserData(result.data));
 
     if (result.data.token) {
-      localStorage.setItem("token", result.data.token); // iOS fallback
+      localStorage.setItem("token", result.data.token);
     }
 
     return result.data;
   } catch (error) {
-    // HANDLE Login Popups window closed
     if (
       error.code === "auth/popup-closed-by-user" ||
       error.code === "auth/cancelled-popup-request"
     ) {
       console.log("User closed login popup");
-      return null; // silent fail
+      return null;
     }
-
-    // REAL ERRORS ONLY
     console.error("Google Login Error:", error);
     return null;
   }
@@ -46,18 +49,17 @@ export const loginWithGoogle = async (dispatch) => {
 // Logout
 export const logoutUser = async (dispatch) => {
   try {
-    const localToken = localStorage.getItem("token");
-
     await axios.post(
       backendUrl + "/api/auth/logout",
       {},
       {
         withCredentials: true,
-        headers: localToken ? { Authorization: `Bearer ${localToken}` } : {},
+        headers: authHeaders(),
       },
     );
+
     await signOut(auth);
-    localStorage.removeItem("token"); // clear localStorage too
+    localStorage.removeItem("token");
     dispatch(setUserData(null));
   } catch (error) {
     localStorage.removeItem("token");
@@ -65,13 +67,12 @@ export const logoutUser = async (dispatch) => {
   }
 };
 
+// Get Current User
 export const getCurrentUser = async (dispatch) => {
   try {
-    const localToken = localStorage.getItem("token");
-
     const result = await axios.get(backendUrl + "/api/user/currentuser", {
       withCredentials: true,
-      headers: localToken ? { Authorization: `Bearer ${localToken}` } : {}, // Token Fallback
+      headers: authHeaders(),
     });
 
     dispatch(setUserData(result.data));
@@ -80,37 +81,35 @@ export const getCurrentUser = async (dispatch) => {
   }
 };
 
+// Generate Notes
 export const generateNotes = async (payload) => {
   try {
-    const localToken = localStorage.getItem("token");
-
     const result = await axios.post(
       backendUrl + "/api/notes/generate-notes",
       payload,
       {
         withCredentials: true,
-        headers: localToken ? { Authorization: `Bearer ${localToken}` } : {}, // Token Fallback
+        headers: authHeaders(),
       },
     );
 
     return result.data;
   } catch (error) {
     const message = error?.response?.data?.message || error.message;
-    throw new Error(message); // re-throw so TopicForm shows real error
+    throw new Error(message);
   }
 };
 
+// Download PDF
 export const downloadPDF = async (result) => {
   try {
-    const localToken = localStorage.getItem("token");
-
     const response = await axios.post(
       backendUrl + "/api/pdf/generate-pdf",
       { result },
       {
         responseType: "blob",
         withCredentials: true,
-        headers: localToken ? { Authorization: `Bearer ${localToken}` } : {}, // Token Fallback
+        headers: authHeaders(),
       },
     );
 

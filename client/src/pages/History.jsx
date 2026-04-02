@@ -49,9 +49,9 @@ function History() {
     const myNotes = async () => {
       try {
         setTopicsLoading(true);
-
         const res = await axios.get(backendUrl + "/api/notes/getnotes", {
           withCredentials: true,
+          headers: authHeaders(),
         });
 
         setTopics(Array.isArray(res.data) ? res.data : []);
@@ -68,14 +68,15 @@ function History() {
   // Get single note
   const openNotes = async (noteId) => {
     setLoading(true);
+
     try {
       const res = await axios.get(backendUrl + `/api/notes/${noteId}`, {
         withCredentials: true,
+        headers: authHeaders(),
       });
 
       setSelectedNote(res.data.content);
       setSelectedNoteId(noteId);
-
       localStorage.setItem("selectedNoteId", noteId);
     } catch (error) {
       console.log(`Error getting Single Notes: ${error}`);
@@ -91,6 +92,7 @@ function History() {
     try {
       await axios.delete(backendUrl + `/api/notes/${id}`, {
         withCredentials: true,
+        headers: authHeaders(),
       });
 
       // remove from UI instantly
@@ -240,7 +242,6 @@ function History() {
 
                 {/* SCROLLABLE NOTES */}
                 <div className="mt-3 flex-1 overflow-y-auto pr-1 custom-scroll">
-                  {/* ← replace the old empty check with this */}
                   {topicsLoading ? (
                     <p className="ml-1.5 text-sm text-gray-400 animate-pulse">
                       Loading notes...
@@ -279,7 +280,7 @@ function History() {
                             </div>
                           </div>
 
-                          {/* ← delete button with ··· while deleting */}
+                          {/* Delete Button */}
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
