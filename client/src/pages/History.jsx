@@ -3,7 +3,7 @@ import axios from "axios";
 import { backendUrl } from "../App";
 import { AnimatePresence, motion } from "motion/react";
 import { useSelector, useDispatch } from "react-redux";
-import { logoutUser } from "../services/api";
+import { authHeaders, logoutUser } from "../services/api";
 import { setUserData } from "../redux/userSlice";
 import MenuToggleIcon from "../components/MenuToggleIcon";
 import { FaEdit } from "react-icons/fa";
